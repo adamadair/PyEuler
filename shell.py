@@ -1,7 +1,5 @@
-import cmd
+import cmd, importlib
 from subprocess import call
-
-from solutions.p001 import P001
 
 
 class Shell(cmd.Cmd):
@@ -48,7 +46,14 @@ example: > problem 001
         call(arg, shell=True)
 
     def run_problem(self, number):
-        if number == '001':
-            P001().run_me()
-        else:
+        # if number == '001':
+        #     P001().run_me()
+        # else:
+        #     print('Problem {0} does not have a solution.'.format(number))
+        try:
+            module = importlib.import_module('solutions.p' + number)
+            my_class = getattr(module, 'P' + number)
+            my_instance = my_class()
+            my_instance.run_me()
+        except:
             print('Problem {0} does not have a solution.'.format(number))
