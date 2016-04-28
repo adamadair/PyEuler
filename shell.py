@@ -1,10 +1,12 @@
 import cmd, importlib
 from subprocess import call
+from tkinter import Tk
 
 
 class Shell(cmd.Cmd):
     intro = 'Welcome to Adam\'s Project Euler Shell\n'
     prompt = '> '
+    last_answer = ''
 
     def do_exit(self, arg):
         """Exits the shell."""
@@ -45,6 +47,21 @@ example: > problem 001
     def do_shell(self, arg):
         call(arg, shell=True)
 
+    def do_clip(self, arg):
+        """clip
+=====
+Saves last answer to clipboard.
+"""
+        if self.last_answer != '':
+            r = Tk()
+            r.withdraw()
+            r.clipboard_clear()
+            r.clipboard_append(self.last_answer)
+
+            print('"{}" saved to clip board.'.format(self.last_answer))
+        else:
+            print('Nothing to clip.')
+
     def run_problem(self, number):
         # if number == '001':
         #     P001().run_me()
@@ -54,6 +71,6 @@ example: > problem 001
             module = importlib.import_module('solutions.p' + number)
             my_class = getattr(module, 'P' + number)
             my_instance = my_class()
-            my_instance.run_me()
+            self.last_answer = my_instance.run_me()
         except:
             print('Problem {0} does not have a solution.'.format(number))

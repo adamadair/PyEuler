@@ -7,7 +7,9 @@ Prints the sum of all the multiples of 3 or 5 below 1000
 
 class P001:
     def run_me(self):
-        print((self.sum_divisible_by(999, 3) + self.sum_divisible_by(999, 5)) - self.sum_divisible_by(999, 15))
+        ans = (self.sum_divisible_by(999, 3) + self.sum_divisible_by(999, 5)) - self.sum_divisible_by(999, 15)
+        print(ans)
+        return ans
 
     @staticmethod
     def sum_divisible_by(target: int, number: int) -> int:
